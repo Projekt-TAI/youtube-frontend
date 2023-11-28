@@ -1,7 +1,10 @@
 @import "src/styles/abstract/mixins";
+@import "src/styles/abstract/variables";
 
-label {
+.form-label {
   @include label();
+
+  margin-bottom: $spacing-4;
 }
 
 .form-control {
