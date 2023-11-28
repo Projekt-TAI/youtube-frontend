@@ -1,4 +1,5 @@
 @import "src/styles/abstract/variables";
+@import "src/styles/abstract/mixins";
 
 .form {
   display: flex;
@@ -7,5 +8,11 @@
 
   &__textarea:not(#\9) {
     min-height: 100px;
+  }
+
+  &__progress {
+    p {
+      @include paragraph-4-regular();
+    }
   }
 }

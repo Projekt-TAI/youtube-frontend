@@ -1,22 +1,28 @@
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import { Form, ProgressBar } from 'react-bootstrap';
 
 import styles from './upload-page.module.scss';
 
-import { useUploadMutation } from '../../api/uploadApiSlice';
+import { useUploadMutation, useUploadProgressQuery } from '../../api/uploadApiSlice';
 
 import DropzoneField from '../../components/dropzone-field/dropzone-field';
 
 import { UploadFormModel } from '../../models';
 
 export function UploadPage() {
+  const acceptFileTypes = useMemo(() => ({
+    'video/mp4': ['.mp4']
+  }), []);
+
   const [upload] = useUploadMutation();
+  const { data: loaded } = useUploadProgressQuery();
 
   const {
     register,
     handleSubmit,
     control,
-    formState
+    formState: { isSubmitted, isValid }
   } = useForm();
 
   const submit = (form: UploadFormModel) => {
@@ -26,7 +32,13 @@ export function UploadPage() {
   return (
     <div>
       <Form onSubmit={handleSubmit((form) => submit(form as UploadFormModel))} className={styles.form}>
-        <DropzoneField name='file' control={control} validation={{ required: true }} multiple={false} placeholderText="Drag 'n' drop, or click to select video file" />
+        <DropzoneField
+          name='file' 
+          control={control} 
+          validation={{ required: true }}
+          accept={acceptFileTypes}
+          multiple={false} 
+          placeholderText="Drag 'n' drop, or click to select video file" />
 
         <Form.Group controlId="title">
           <Form.Label>Video title</Form.Label>
@@ -38,9 +50,16 @@ export function UploadPage() {
           <Form.Control as="textarea" type="text" {...register('description', { required: true })} className={styles.form__textarea} />
         </Form.Group>
 
-        <button type="submit" disabled={!formState.isValid} className='btn btn-primary'>
+        <button type="submit" disabled={!isValid || isSubmitted} className='btn btn-primary'>
           Submit
         </button>
+
+        {isSubmitted && 
+          <div className={styles.form__progress}>
+            <p>Progress:</p>
+            <ProgressBar now={loaded} />
+          </div>
+        }
       </Form>
     </div>
   )
