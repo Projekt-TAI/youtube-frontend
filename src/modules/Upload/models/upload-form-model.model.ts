@@ -1,5 +1,5 @@
 export interface UploadFormModel {
-  file: File,
+  file: [File],
   title: string,
   description: string
 }

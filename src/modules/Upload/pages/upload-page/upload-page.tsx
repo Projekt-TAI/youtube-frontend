@@ -15,7 +15,8 @@ export function UploadPage() {
   const {
     register,
     handleSubmit,
-    control
+    control,
+    formState
   } = useForm();
 
   const submit = (form: UploadFormModel) => {
@@ -25,19 +26,21 @@ export function UploadPage() {
   return (
     <div>
       <Form onSubmit={handleSubmit((form) => submit(form as UploadFormModel))}>
-        <DropzoneField name='file' control={control} />
+        <DropzoneField name='file' control={control} validation={{ required: true }} />
 
         <Form.Group controlId="title">
           <Form.Label>Video title</Form.Label>
-          <Form.Control type="text" {...register('title')} />
+          <Form.Control type="text" {...register('title', { required: true })} />
         </Form.Group>
 
         <Form.Group controlId="description">
           <Form.Label>Video description</Form.Label>
-          <Form.Control as="textarea" type="text" {...register('description')} />
+          <Form.Control as="textarea" type="text" {...register('description', { required: true })} />
         </Form.Group>
 
-        <input type="submit" className='btn btn-primary' />
+        <button type="submit" disabled={!formState.isValid} className='btn btn-primary'>
+          Submit
+        </button>
       </Form>
     </div>
   )

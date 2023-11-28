@@ -10,7 +10,7 @@ export const uploadApiSlice = baseApi.injectEndpoints({
 
         const formData = new FormData();
 
-        formData.append('file', file);
+        formData.append('file', file[0]);
         formData.append('title', title);
         formData.append('description', description);
         
