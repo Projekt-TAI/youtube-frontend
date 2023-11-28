@@ -6,6 +6,7 @@ import styles from './dropzone.field.module.scss';
 type DropzoneFieldProps = {
   name: string,
   control: Control<FieldValues> | undefined,
+  placeholderText?: string,
   validation?: Omit<RegisterOptions<FieldValues, string>, "disabled" | "setValueAs" | "valueAsNumber" | "valueAsDate">
 } & DropzoneProps;
 
@@ -13,12 +14,13 @@ const DropzoneField = ({
   name,
   control,
   validation,
+  placeholderText = "Drag 'n' drop some files here, or click to select files",
   ...rest
 }: DropzoneFieldProps) => {
   return (
     <Controller
       rules={validation}
-      render={({ field: { onChange } }) => (
+      render={({ field: { onChange, value } }) => (
         <Dropzone
           onDrop={e => onChange(e)}
           {...rest}
@@ -26,7 +28,16 @@ const DropzoneField = ({
           {({getRootProps, getInputProps}) => (
             <div {...getRootProps()} className={styles.dropzone}>
               <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              {
+                value.length === 0 ?
+                  <p>{placeholderText}</p> :
+                  <>
+                    <p>Selected file{value.length > 1 ? 's' : ''}:</p>
+                    {value.map((v: File, i: number) => 
+                      <p key={i}>{v.name}</p>
+                    )}
+                  </>
+              }
             </div>
           )}
         </Dropzone>

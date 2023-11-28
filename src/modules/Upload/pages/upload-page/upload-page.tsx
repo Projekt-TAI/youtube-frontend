@@ -25,8 +25,8 @@ export function UploadPage() {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit((form) => submit(form as UploadFormModel))}>
-        <DropzoneField name='file' control={control} validation={{ required: true }} />
+      <Form onSubmit={handleSubmit((form) => submit(form as UploadFormModel))} className={styles.form}>
+        <DropzoneField name='file' control={control} validation={{ required: true }} multiple={false} placeholderText="Drag 'n' drop, or click to select video file" />
 
         <Form.Group controlId="title">
           <Form.Label>Video title</Form.Label>
@@ -35,7 +35,7 @@ export function UploadPage() {
 
         <Form.Group controlId="description">
           <Form.Label>Video description</Form.Label>
-          <Form.Control as="textarea" type="text" {...register('description', { required: true })} />
+          <Form.Control as="textarea" type="text" {...register('description', { required: true })} className={styles.form__textarea} />
         </Form.Group>
 
         <button type="submit" disabled={!formState.isValid} className='btn btn-primary'>

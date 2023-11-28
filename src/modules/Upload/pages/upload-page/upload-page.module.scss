@@ -1,0 +1,11 @@
+@import "src/styles/abstract/variables";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-16;
+
+  &__textarea:not(#\9) {
+    min-height: 100px;
+  }
+}
