@@ -3,7 +3,7 @@ import { Control, Controller, FieldValues, RegisterOptions } from "react-hook-fo
 
 import styles from './dropzone.field.module.scss';
 
-type DropzoneFieldProps = {
+export type DropzoneFieldProps = {
   name: string,
   control: Control<FieldValues> | undefined,
   placeholderText?: string,
