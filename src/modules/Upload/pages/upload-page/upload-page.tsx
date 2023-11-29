@@ -15,18 +15,23 @@ export function UploadPage() {
     'video/mp4': ['.mp4']
   }), []);
 
-  const [upload, { isError }] = useUploadMutation();
+  const [upload, { isError, isSuccess }] = useUploadMutation();
   const { data: loaded } = useUploadProgressQuery();
 
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { isSubmitted, isValid }
   } = useForm();
 
   const submit = (form: UploadFormModel) => {
     upload(form);
+  }
+
+  const clearForm = () => {
+    reset();
   }
 
   return (
@@ -50,9 +55,21 @@ export function UploadPage() {
           <Form.Control as="textarea" type="text" {...register('description', { required: true })} className={styles.form__textarea} />
         </Form.Group>
 
-        <button type="submit" disabled={(!isValid || isSubmitted) && !isError} className='btn btn-primary'>
-          Submit
-        </button>
+        {
+          isSuccess ?
+            <button type="button" onClick={clearForm} className='btn btn-primary'>
+              Submit another video
+            </button> :
+            (
+              isError ?
+                <button type="submit" className='btn btn-danger'>
+                  Retry
+                </button> :
+                <button type="submit" disabled={!isValid || isSubmitted} className='btn btn-primary'>
+                  Submit
+                </button>
+            )
+        }
 
         {isSubmitted && !isError && 
           <div className={styles.form__progress}>
