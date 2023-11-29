@@ -31,10 +31,9 @@ export const uploadApiSlice = baseApi.injectEndpoints({
             const res = await axios.post(`${API_BASE_URL}/videos/upload`, formData, {
               onUploadProgress: progress => {
                 api.dispatch(uploadApiSlice.util.updateQueryData('uploadProgress', void 0, (x) => {
-                  return progress.loaded;
+                  return (progress.progress ?? 0) * 100;
                 }));
               },
-              
               withCredentials: true
             });
             
