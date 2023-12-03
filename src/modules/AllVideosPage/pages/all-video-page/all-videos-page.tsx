@@ -1,25 +1,38 @@
+import { useCallback, useEffect, useState } from 'react';
 
 import styles from './all-video-page.module.scss';
 
-import { VideoCard } from "src/modules/shared/components";
-import { useFetch } from 'src/modules/shared/hooks';
+import { useAllVideosQuery } from '../../api';
+
+import { LoadingSpinner, VideosContainer } from "src/modules/shared/components";
 
 export function AllVideosPage() {
-  const [data, loading, error] = useFetch<string[]>('/videos', 'GET');
+	const [pageNumber, setPageNumber] = useState(1);
+  const { isLoading, isFetching, isError, data, refetch, originalArgs } = useAllVideosQuery({ pageNumber, pageSize: 20 });
+
+	const loadMore = useCallback(() => {
+		if (isFetching) return;
+
+		setPageNumber(prev => prev + 1);
+	}, [isFetching]);
+
+	useEffect(() => {
+		if (!originalArgs) return;
+		
+		setPageNumber(originalArgs.pageNumber);
+	}, [originalArgs])
 
   return (
     <div className={styles.container}>
-      <h3>Wszystkie pliki video:</h3>
-      {loading && <p>Loading...</p>}
-      {!loading && error && <p>Error...</p>}
-      {!loading && data &&
-        <div className={styles.content}>
-          {
-            data?.map((video) => {
-              return <VideoCard key={video} video={video} />
-            })
-          }
-        </div>
+      <h3>All video files:</h3>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && isError && !data && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+      {data &&
+        <>
+					<VideosContainer videos={data} inView={() => loadMore()} isFetching={isFetching} />
+					{isFetching && <LoadingSpinner />}
+					{isError && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+				</>
       }
     </div>
   )
