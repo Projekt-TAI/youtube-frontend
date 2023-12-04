@@ -14,10 +14,10 @@ export function VideoCard({ video }: VideoCardProps) {
   return (
     <Link to={`/watch/${video.id}`} className={styles.link}>
       <div className={styles.container}>
-        <img className={styles.container__thumb} src='https://picsum.photos/200/112' loading="lazy" alt="thumbnail" />
+        <img className={styles.container__thumb} src={video.thumbnailSrc ?? 'https://picsum.photos/200/112'} loading="lazy" alt="thumbnail" />
         <div className={styles.container__info}>
 					<div className={styles.container__title}>
-						<p className={styles.text}>{video.title ?? "Testowy tytuł Testowy tytuł Testowy tytuł Testowy tytuł Testowy tytuł "}</p>
+						<p className={styles.text}>{video.title}</p>
 					</div>
 					<div className={styles.container__stats}>
 						{/* TODO views */}

@@ -5,21 +5,23 @@ import styles from './all-video-page.module.scss';
 import { useAllVideosQuery } from '../../api';
 
 import { LoadingSpinner, VideosContainer } from "src/modules/shared/components";
+import { PaginatedQueryParams } from 'src/models';
 
 export function AllVideosPage() {
-	const [pageNumber, setPageNumber] = useState(1);
-  const { isLoading, isFetching, isError, data, refetch, originalArgs } = useAllVideosQuery({ pageNumber, pageSize: 20 });
+	const [query, setQuery] = useState<PaginatedQueryParams>({ pageNumber: 0, pageSize: 60 });
+  const { isLoading, isFetching, isError, data, refetch, originalArgs } = useAllVideosQuery(query);
 
 	const loadMore = useCallback(() => {
 		if (isFetching) return;
+		if (data && data.data.length >= data.count) return;
 
-		setPageNumber(prev => prev + 1);
-	}, [isFetching]);
+		setQuery(prev => ({ ...prev, pageNumber: prev.pageNumber + 1 }));
+	}, [isFetching, data]);
 
 	useEffect(() => {
 		if (!originalArgs) return;
 		
-		setPageNumber(originalArgs.pageNumber);
+		setQuery(originalArgs);
 	}, [originalArgs])
 
   return (
@@ -29,7 +31,7 @@ export function AllVideosPage() {
       {!isLoading && isError && !data && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
       {data &&
         <>
-					<VideosContainer videos={data} inView={() => loadMore()} isFetching={isFetching} />
+					<VideosContainer videos={data.data} inView={() => loadMore()} isFetching={isFetching} />
 					{isFetching && <LoadingSpinner />}
 					{isError && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
 				</>

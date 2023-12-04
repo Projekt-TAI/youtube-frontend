@@ -4,7 +4,8 @@ import { Video } from "src/modules/shared/models";
 
 export const allVideosApiSlice = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    allVideos: builder.query<Video[], PaginatedQueryParams>({
+    allVideos: builder.query<PaginatedResponse<Video>, PaginatedQueryParams>({
+      keepUnusedDataFor: 300,
       query: (queryParams) => {
 				const params = new URLSearchParams(queryParams as never);
 
@@ -12,11 +13,18 @@ export const allVideosApiSlice = baseApi.injectEndpoints({
 					url: `/videos?${params}`,
 				}
 			},
-      serializeQueryArgs: ({ endpointName, queryArgs: { pageSize } }) => {
-        return endpointName + pageSize;
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
       },
       merge: (currentCache, newItems) => {
-        currentCache.push(...newItems);
+        const { data, ...rest } = newItems;
+
+        currentCache.data.push(...newItems.data);
+
+        currentCache = {
+          ...currentCache,
+          ...rest
+        }
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg!.pageNumber > (previousArg?.pageNumber ?? 0) || currentArg?.pageSize !== previousArg?.pageSize;

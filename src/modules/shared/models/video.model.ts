@@ -5,4 +5,5 @@ export type Video = {
 	category: number;
 	createdAt: string;
 	views: number;
+	thumbnailSrc: string;
 }
