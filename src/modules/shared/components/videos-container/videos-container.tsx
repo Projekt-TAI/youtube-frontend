@@ -14,7 +14,7 @@ export type VideosContainerProps = {
 	isError?: boolean;
 	isListView?: boolean;
 	refetch?: () => unknown;
-	data: PaginatedResponse<Video> | undefined;
+	data?: PaginatedResponse<Video> | undefined;
 }
 
 export function VideosContainer({ 
@@ -24,13 +24,18 @@ export function VideosContainer({
 	isLoading = false, 
 	isError = false, 
 	isListView = false, 
-	data }: VideosContainerProps
-) {
+	data 
+}: VideosContainerProps) {
+	const RetryButton = 
+		<div className={styles.center}>
+			<button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>
+		</div>;
+
   return (
 		<>
 			<div>
 				{isLoading && <LoadingSpinner />}
-				{!isLoading && isError && !data && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+				{!isLoading && isError && !data && <div>{RetryButton}</div>}
 				{data &&
 					<>
 						<div className={`${styles.container} ${isListView ? styles.list : styles.gallery}`}>
@@ -41,11 +46,11 @@ export function VideosContainer({
 							}
 						</div>
 						{isFetching && <LoadingSpinner />}
-						{isError && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+						{isError && <div>{RetryButton}</div>}
 					</>
 				}
 			</div>
-			{!isFetching && <IsVisibleContainer inView={inView} />}
+			{!isFetching && data && data.data.length < data.count && <IsVisibleContainer inView={inView} />}
 		</>
 	)
 }
