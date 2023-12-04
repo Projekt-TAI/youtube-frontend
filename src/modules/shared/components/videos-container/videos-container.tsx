@@ -1,28 +1,48 @@
 import styles from './videos-container.module.scss';
 
+import IsVisibleContainer from '../is-visible-container/is-visible-container';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 import VideoCard from "../video-card/video-card";
 
 import { Video } from "../../models";
-import { useState } from 'react';
-import IsVisibleContainer from '../is-visible-container/is-visible-container';
+import { PaginatedResponse } from 'src/models';
 
 export type VideosContainerProps = {
-  videos: Video[];
 	inView?: () => void;
-	isFetching: boolean;
+	isFetching?: boolean;
+	isLoading?: boolean;
+	isError?: boolean;
+	isListView?: boolean;
+	refetch?: () => unknown;
+	data: PaginatedResponse<Video> | undefined;
 }
 
-export function VideosContainer({ videos, inView, isFetching }: VideosContainerProps) {
-	const [isListView, setIsListView] = useState(false);
-	
+export function VideosContainer({ 
+	inView = () => {}, 
+	refetch = () => {}, 
+	isFetching = false, 
+	isLoading = false, 
+	isError = false, 
+	isListView = false, 
+	data }: VideosContainerProps
+) {
   return (
 		<>
-			<button className='btn btn-secondary' onClick={() => setIsListView(prev => !prev)}>Toggle</button>
-			<div className={`${styles.container} ${isListView ? styles.list : styles.gallery}`}>
-				{
-					videos.map((video, index) => (
-						<VideoCard key={video.id ?? index} video={video} />
-					))
+			<div>
+				{isLoading && <LoadingSpinner />}
+				{!isLoading && isError && !data && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+				{data &&
+					<>
+						<div className={`${styles.container} ${isListView ? styles.list : styles.gallery}`}>
+							{
+								data.data.map((video, index) => (
+									<VideoCard key={video.id ?? index} video={video} />
+								))
+							}
+						</div>
+						{isFetching && <LoadingSpinner />}
+						{isError && <button type="button" className="btn btn-danger" onClick={() => refetch()}>Retry</button>}
+					</>
 				}
 			</div>
 			{!isFetching && <IsVisibleContainer inView={inView} />}

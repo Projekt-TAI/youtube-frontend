@@ -57,6 +57,18 @@
 				line-height: 1.25;
 			}
 		}
+
+		&__additional {
+			display: none;
+
+			.text {
+				@include text-overflow(4);
+				@include paragraph-4-regular();
+				line-height: 1.25;
+
+				word-break: normal;
+			}
+    }
   }
 
 	.seperator {
@@ -69,7 +81,7 @@
 	}
 }
 
-@container (min-width: 95cqi) {
+@container (min-width: 90cqw) {
 	@container (min-width: 500px) {
 		.link {
 			.container {
@@ -78,6 +90,10 @@
 	
 				&__thumb {
 					max-width: 300px;
+				}
+
+				&__additional {
+					display: initial;
 				}
 			}
 		}

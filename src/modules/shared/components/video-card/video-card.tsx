@@ -26,6 +26,10 @@ export function VideoCard({ video }: VideoCardProps) {
 						{/* TODO created at timestamp */}
 						<span className={styles.text}>{timeAgo.format(video.createdAt ? new Date(video.createdAt) : (Date.now() - 20 * 60 * 60 * 1000))}</span>
 					</div>
+					<div className={styles.container__additional}>
+						<p className={styles.text}>{video.description}</p>
+						{/* TODO category */}
+					</div>
 					</div>
       </div>
     </Link>
