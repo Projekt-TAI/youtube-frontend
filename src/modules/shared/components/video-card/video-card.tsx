@@ -4,7 +4,7 @@ import styles from './video-card.module.scss';
 
 import { Video } from "../../models";
 import { timeAgo } from "src/lib";
-import { formatViews } from "../../helpers";
+import { formatViews, mapCategory } from "../../helpers";
 
 export type VideoCardProps = {
   video: Video;
@@ -28,7 +28,7 @@ export function VideoCard({ video }: VideoCardProps) {
 					</div>
 					<div className={styles.container__additional}>
 						<p className={styles.text}>{video.description}</p>
-						{/* TODO category */}
+						<span className="chip">{mapCategory(video.category)}</span>
 					</div>
 					</div>
       </div>
