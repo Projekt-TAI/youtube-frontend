@@ -6,16 +6,19 @@ import styles from './default-layout.module.scss';
 
 import { Header, Sidebar } from "src/layout/components";
 import { LoadingSpinner } from "src/modules/shared/components";
+import { useSidebar } from "src/modules/shared/providers";
 
 export type DefaultLayoutProps = {
   maxWidth?: string
 }
 
 export function DefaultLayout({ maxWidth = "100%" }: DefaultLayoutProps) {
+  const { isBelowBreakpoint } = useSidebar();
+  
   return (
     <>
       <Header />
-      <div className={styles.container}>
+      <div className={`${styles.container} ${isBelowBreakpoint ? styles.breakpoint : ''}`}>
         <div className={styles.container__sidebar}>
           <Sidebar />
         </div>
