@@ -1,10 +1,17 @@
 @import "src/styles/abstract/variables";
+@import "src/styles/abstract/colors";
 
 .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: $white;
+  z-index: 100;
+  
   display: flex;
   justify-content: space-between;
   padding: $spacing-16;
   align-items: center;
 
-  height: $spacing-72;
+  height: $header-height;
 }

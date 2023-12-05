@@ -21,10 +21,10 @@ export function VideoCard({ video }: VideoCardProps) {
 					</div>
 					<div className={styles.container__stats}>
 						{/* TODO views */}
-						<span className={styles.text}>{formatViews(video.views ?? 999)} views</span>
+						<span className={styles.text}>{formatViews(video.views ?? 1000)} views</span>
 						<span className={styles.seperator}></span>
 						{/* TODO created at timestamp */}
-						<span className={styles.text}>{timeAgo.format(video.createdAt ? new Date(video.createdAt) : (Date.now() - 20 * 60 * 60 * 1000))}</span>
+						<span className={styles.text}>{timeAgo.format(video.createdAt ? new Date(video.createdAt) : (Date.now() - 21 * 60 * 60 * 1000))}</span>
 					</div>
 					<div className={styles.container__additional}>
 						<p className={styles.text}>{video.description}</p>

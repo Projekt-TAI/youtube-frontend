@@ -1,11 +1,30 @@
 @import "src/styles/abstract/variables";
 
-.pageWrapper {
-  display: flex;
-  justify-content: center;
-  margin: $spacing-16;
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-top: $header-height;
 
-  &__container {
-    flex: 1;
+  .pageWrapper {
+    display: flex;
+    justify-content: center;
+    margin: $spacing-16;
+    
+    &__container {
+      flex: 1;
+    }
+  }
+
+  &__sidebar {
+    position: sticky;
+    top: $header-height;
+
+    > *:not(#\9) {
+      position: sticky;
+      top: $header-height;
+      height: 100%;
+    }
+
+    height: calc(100dvh - $header-height);
   }
 }
