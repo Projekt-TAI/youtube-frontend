@@ -1,8 +1,7 @@
 import {
 	Sidebar as ReactSidebar,
 	Menu,
-	MenuItem,
-	SubMenu,
+	MenuItem
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 

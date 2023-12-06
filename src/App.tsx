@@ -27,6 +27,11 @@ const AllVideosPage = lazy(() =>
 		default: module.AllVideosPage,
 	}))
 );
+const TrendingPage = lazy(() =>
+	import("./modules/Trending").then((module) => ({
+		default: module.TrendingPage,
+	}))
+);
 const UploadPage = lazy(() =>
 	import("./modules/Upload").then((module) => ({ default: module.UploadPage }))
 );
@@ -41,6 +46,10 @@ export function App() {
 							<Route path="" element={<DefaultLayout />}>
 								<Route path="" element={<AllVideosPage />}></Route>
 								<Route path="*" element={<Navigate to="" replace />} />
+							</Route>
+							<Route path="/trending" element={<DefaultLayout />}>
+								<Route path="" element={<TrendingPage />}></Route>
+								<Route path="*" element={<Navigate to="/trending" replace />} />
 							</Route>
 							<Route path="/watch" element={<DefaultLayout />}>
 								<Route path=":videoId" element={<VideoPage />}></Route>
