@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import styles from './trending-page.module.scss';
+import styles from './subscription-videos-page.module.scss';
 
-import { useTrendingVideosQuery } from '../../api';
+import { useSubscriptionVideosQuery } from '../../api';
 
 import { VideosContainer } from "src/modules/shared/components";
 import { PaginatedQueryParams } from 'src/models';
 
-export function TrendingPage() {
+export function SubscriptionVideosPage() {
 	const [query, setQuery] = useState<PaginatedQueryParams>({ pageNumber: 0, pageSize: 60 });
 	const [isListView, setIsListView] = useState(false);
-  const queryData = useTrendingVideosQuery(query);
+  const queryData = useSubscriptionVideosQuery(query);
 	
 	const { isFetching, originalArgs } = queryData;
 
@@ -29,7 +29,7 @@ export function TrendingPage() {
   return (
     <div className={styles.container}>
 			<div className={styles.container__header}>
-      	<h3>Trending videos:</h3>
+      	<h3>Subscription videos:</h3>
 				<div className={styles.container__header__settings}>
 					<button className='btn btn-round btn-list-view' onClick={() => setIsListView(false)}>
 						<i className={`bi bi-grid-3x2-gap${!isListView ? '-fill' : ''}`}></i>
@@ -44,4 +44,4 @@ export function TrendingPage() {
   )
 }
 
-export default TrendingPage;
+export default SubscriptionVideosPage;
