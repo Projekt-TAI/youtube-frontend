@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { useLocalStorage } from '@uidotdev/usehooks';
+
 import styles from './all-video-page.module.scss';
 
 import { useAllVideosQuery } from '../../api';
 
 import { VideosContainer } from "src/modules/shared/components";
 import { PaginatedQueryParams } from 'src/models';
+import { IN_VIEW_LOCAL_STORAGE_KEY } from 'src/config';
 
 export function AllVideosPage() {
 	const [query, setQuery] = useState<PaginatedQueryParams>({ pageNumber: 0, pageSize: 60 });
-	const [isListView, setIsListView] = useState(false);
+	const [isListView, setIsListView] = useLocalStorage(IN_VIEW_LOCAL_STORAGE_KEY, false);
   const queryData = useAllVideosQuery(query);
 	
 	const { isFetching, originalArgs } = queryData;
