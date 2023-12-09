@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom';
 
 import styles from './video-details.module.scss';
 
-import { timeAgo } from 'src/lib';
-
 import { useVideoDetailsQuery } from '../../api/videoApiSlice';
 
-import { formatNumbers, mapCategory } from 'src/modules/shared/helpers';
+import { formatNumbers } from 'src/modules/shared/helpers';
 
 import { LoadingSpinner } from 'src/modules/shared/components';
+import { VideoDescription } from '..';
 
 export type VideoDetailsProps = {
 	videoId: number;
@@ -64,17 +63,7 @@ export const VideoDetails = ({ videoId }: VideoDetailsProps) => {
 					<Button className="btn-light btn-lg" onClick={handleShare}>Share</Button>
 				</div>
 			</div>
-			<div className={styles.descriptionWrapper}>
-				<div className={styles.details}>
-					<span>{formatNumbers(data.views, data.views >= 10000 ? 0 : 1)} views</span>
-					<span>{timeAgo.format(new Date(data.createdAt))}</span>
-					<span className="chip">{mapCategory(data.category)}</span>
-				</div>
-				<span className={styles.description}>{descriptionExpanded ? data.description : descriptionSubstring}</span>
-				<button className={`${styles.descriptionExpandBtn} ${descriptionSubstring.length === data.description.length ? styles.hide : ''} btn`} onClick={() => setDescriptionExpanded(prev => !prev)}>
-					{descriptionExpanded ? 'Show less' : 'Show more'}
-				</button>
-			</div>
+			<VideoDescription data={data} />
 		</div>
   )
 };
