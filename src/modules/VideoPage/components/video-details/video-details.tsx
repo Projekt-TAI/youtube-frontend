@@ -1,3 +1,5 @@
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './video-details.module.scss';
@@ -5,10 +7,10 @@ import styles from './video-details.module.scss';
 import { timeAgo } from 'src/lib';
 
 import { useVideoDetailsQuery } from '../../api/videoApiSlice';
-import { LoadingSpinner } from 'src/modules/shared/components';
+
 import { formatNumbers, mapCategory } from 'src/modules/shared/helpers';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { useRef, useState } from 'react';
+
+import { LoadingSpinner } from 'src/modules/shared/components';
 
 export type VideoDetailsProps = {
 	videoId: number;
@@ -22,19 +24,19 @@ export const VideoDetails = ({ videoId }: VideoDetailsProps) => {
 	if (!data) return null;
 
 	const handleLike = () => {
-
+		//TODO
 	}
 
 	const handleDislike = () => {
-		
+		//TODO
 	}
 
 	const handleSubscribe = () => {
-		
+		//TODO
 	}
 
 	const handleShare = () => {
-		
+		//TODO
 	}
 
 	const descriptionSubstring = data.description.substring(0, 255);
