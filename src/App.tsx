@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { Navigate } from "react-router";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 // providers
 import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
@@ -66,10 +67,23 @@ export function App() {
 								<Route path="" element={<TrendingPage />}></Route>
 								<Route path="*" element={<Navigate to="/trending" replace />} />
 							</Route>
-							<Route path="/subscriptions" element={<DefaultLayout />}>
+							<Route
+								path="/subscriptions"
+								element={
+									<AuthorizedContainer>
+										<DefaultLayout />
+									</AuthorizedContainer>
+								}
+							>
 								<Route path="" element={<SubscriptionPage />}></Route>
-								<Route path="videos" element={<SubscriptionVideosPage />}></Route>
-								<Route path="*" element={<Navigate to="/subscriptions/videos" replace />} />
+								<Route
+									path="videos"
+									element={<SubscriptionVideosPage />}
+								></Route>
+								<Route
+									path="*"
+									element={<Navigate to="/subscriptions/videos" replace />}
+								/>
 							</Route>
 							<Route path="/watch" element={<DefaultLayout />}>
 								<Route path=":videoId" element={<VideoPage />}></Route>
@@ -95,6 +109,8 @@ export function App() {
 
 							<Route path="*" element={<Navigate to=""></Navigate>}></Route>
 						</Routes>
+
+						<ToastContainer limit={3} />
 					</BrowserRouter>
 				</SidebarProvider>
 			</AuthProvider>
