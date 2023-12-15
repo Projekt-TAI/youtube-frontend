@@ -15,7 +15,7 @@ import { DefaultLayout } from "./layout/containers";
 import { baseApi } from "./base-api";
 
 // components
-import { AuthorizedContainer } from "./modules/shared/components";
+import { AuthorizedContainer, NumberParamContainer } from "./modules/shared/components";
 
 // pages
 const VideoPage = lazy(() =>
@@ -86,12 +86,12 @@ export function App() {
 								/>
 							</Route>
 							<Route path="/watch" element={<DefaultLayout />}>
-								<Route path=":videoId" element={<VideoPage />}></Route>
+								<Route path=":videoId" element={<NumberParamContainer paramName="videoId"><VideoPage /></NumberParamContainer>}></Route>
 								<Route path="" element={<Navigate to="/" replace />} />
 								<Route path="*" element={<Navigate to="/" replace />} />
 							</Route>
 							<Route path="/user" element={<DefaultLayout />}>
-								<Route path=":userId" element={<UserPage />}></Route>
+								<Route path=":userId" element={<NumberParamContainer paramName="userId"><UserPage /></NumberParamContainer>}></Route>
 								<Route path="" element={<Navigate to="/" replace />} />
 								<Route path="*" element={<Navigate to="/" replace />} />
 							</Route>
